@@ -3,21 +3,16 @@ import java.awt.*;
 
 public class Ramka extends JFrame
 {
-    int szerokoscRamki;
-    int wysokoscRamki;
-    JButton button_one;
-    public Ramka(int szerokosc, int wysokosc)
+    public Ramka()
     {
         super("REQUEST CREATOR");
-        szerokoscRamki = szerokosc;
-        wysokoscRamki = wysokosc;
-        initComponents();
         int szerokoscEkranu = Toolkit.getDefaultToolkit().getScreenSize().width;
         int wysokoscEkranu = Toolkit.getDefaultToolkit().getScreenSize().height;
-        this.setSize(szerokosc, wysokosc);
-        szerokoscRamki = this.getSize().width;
-        wysokoscRamki = this.getSize().height;
-        this.setLocation((int)(szerokoscEkranu - szerokoscRamki)/2, (int)(wysokoscEkranu - wysokoscRamki)/2);
+        this.setSize(szerokoscEkranu/2, wysokoscEkranu/2);
+        int szerokoscRamki = this.getSize().width;
+        int wysokoscRamki = this.getSize().height;
+        this.setLocation((szerokoscEkranu-szerokoscRamki)/2, (wysokoscEkranu-wysokoscRamki)/2);
+        initComponents();
         this.setDefaultCloseOperation(3);
         this.setResizable(false);
         this.setVisible(true);
@@ -26,29 +21,20 @@ public class Ramka extends JFrame
 
     public void initComponents()
     {
-        button_one = new JButton("Wygeneruj request");
-        button_one.setSize(button_one.getPreferredSize());
-        Container kontener = this.getContentPane();
-        kontener.setLayout(null);
-        kontener.add(button_one);
+        GroupLayout layout = new GroupLayout(getContentPane());
+        this.getContentPane().setLayout(layout);
 
-        int szerokosc = getSzerokoscRamki();
-        int polowaPrzycisku = (int)button_one.getSize().getWidth() / 2;
-        System.out.println("Szerokość ramki: " + szerokosc);
-        System.out.println("Długość przycisku: " + (int)button_one.getSize().getWidth() + ". Połowa długości przycisku: " + polowaPrzycisku);
-        button_one.setLocation(((szerokosc/2) - polowaPrzycisku), getWysokoscRamki() - 100);
-        System.out.println("Początek przycisku na osi X: " + button_one.getX());
+        layout.setAutoCreateContainerGaps(true);
+        layout.setAutoCreateGaps(true);
+
+        layout.setHorizontalGroup(
+                layout.createSequentialGroup().addContainerGap(10,Short.MAX_VALUE).addComponent(button_one)
+        );
+
+        layout.setVerticalGroup(
+                layout.createSequentialGroup().addContainerGap(10, Short.MAX_VALUE).addComponent(button_one)
+        );
+
     }
-
-    public int getSzerokoscRamki()
-    {
-
-        return this.szerokoscRamki;
-    }
-
-    public int getWysokoscRamki()
-    {
-        return this.wysokoscRamki;
-    }
-
+    JButton button_one = new JButton("WYGENERUJ REQUEST");
 }
