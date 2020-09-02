@@ -6,6 +6,19 @@ import java.util.GregorianCalendar;
 
 public class Ramka extends JFrame
 {
+
+    private JTextArea requestText = new JTextArea();
+    private JScrollPane suwak = new JScrollPane(requestText);
+    JButton button_one = new JButton("WYGENERUJ REQUEST");
+    JLabel request = new JLabel("Request z Kibany: ");
+    JLabel etykieta = new JLabel("Godzina: ");
+    JLabel repo = new JLabel("Repozytorium: ");
+    JLabel templateID = new JLabel("TemplateID: ");
+    JLabel name = new JLabel("Nazwa PDF: ");
+    JLabel ver = new JLabel("Wersja: ");
+    JLabel env = new JLabel("Środowisko: ");
+    JLabel czas = new JLabel(pobierzCzas());
+
     public Ramka()
     {
         super("REQUEST CREATOR");
@@ -38,18 +51,18 @@ public class Ramka extends JFrame
 
         layout.setHorizontalGroup(layout.createSequentialGroup()
         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(request).addComponent(etykieta).addComponent(templateID).addComponent(repo).addComponent(name).addComponent(ver).addComponent(env))
-        .addComponent(czas)
+        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(suwak).addComponent(czas))
         .addComponent(button_one)
         );
 
         layout.setVerticalGroup(layout.createSequentialGroup()
-        .addComponent(request)
-        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(etykieta).addComponent(czas))
+        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(request).addComponent(suwak))
         .addComponent(templateID)
         .addComponent(repo)
         .addComponent(name)
         .addComponent(ver)
         .addComponent(env)
+        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(etykieta).addComponent(czas))
         .addComponent(button_one)
         );
 
@@ -61,19 +74,11 @@ public class Ramka extends JFrame
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            System.out.println("WYGENEROWANO REQUEST");
+            int opcja = JOptionPane.showConfirmDialog(rootPane, "Czy chcesz wygenerować request?", "Potrzebne potwierdzenie", JOptionPane.YES_NO_OPTION);
+            if (opcja == 0)
+                System.out.println("WYGENEROWANO REQUEST");
         }
     }
-
-    JButton button_one = new JButton("WYGENERUJ REQUEST");
-    JLabel request = new JLabel("Request z Kibany: ");
-    JLabel etykieta = new JLabel("Godzina: ");
-    JLabel repo = new JLabel("Repozytorium: ");
-    JLabel templateID = new JLabel("TemplateID: ");
-    JLabel name = new JLabel("Nazwa PDF: ");
-    JLabel ver = new JLabel("Wersja: ");
-    JLabel env = new JLabel("Środowisko: ");
-    JLabel czas = new JLabel(pobierzCzas());
 
     private class Zegar implements ActionListener {
 
@@ -103,6 +108,6 @@ public class Ramka extends JFrame
         {
             sec = "0" + sec;
         }
-        return hour + " : " + minute + " : " + sec;
+        return hour + ":" + minute + ":" + sec;
     }
 }
