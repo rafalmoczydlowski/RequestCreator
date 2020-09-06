@@ -159,8 +159,7 @@ public class Ramka extends JFrame
                 String pathnameFile = "TEST_" + year + "" + month + "" + day + "_" + hour + "" + minute + "" + sec + ".xml";
                 requestText.insert("<docs> \n <template denv = \"" + environment + "\" dname = \"" + "\" drepo = \"" + "\" dtemplateid = \"" + "\" dversion = \"" + "\"/>\n", 0);
                 requestText.append("\n</docs>");
-                String request = requestText.getText().replaceAll("&lt;", "<").replaceAll("&gt;", ">");
-                System.out.println(request);
+                String requestReplace = requestText.getText().replaceAll("&lt;", "<").replaceAll("&gt;", ">");
 
                 File requestFile = new File(pathnameFile);
                 try
@@ -183,7 +182,7 @@ public class Ramka extends JFrame
                 try
                 {
                     writer = new FileWriter(pathnameFile);
-                    writer.write(request);
+                    writer.write(requestReplace);
                 }
                 catch (IOException e1)
                 {
@@ -241,7 +240,6 @@ public class Ramka extends JFrame
 
     public String pobierzDate()
     {
-        String godzinaGenerowania = LocalDateTime.now().toString();
-        return godzinaGenerowania;
+        return LocalDateTime.now().toString();
     }
 }
