@@ -1,6 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -121,7 +124,56 @@ public class Ramka extends JFrame
         {
             int opcja = JOptionPane.showConfirmDialog(rootPane, "Czy chcesz wygenerować request?", "Potrzebne potwierdzenie", JOptionPane.YES_NO_OPTION);
             if (opcja == 0)
+            {
+                requestText.insert("<docs> \n <template denv = \"" + "\" dname = \"" + "\" drepo = \"" + "\" dtemplateid = \"" + "\" dversion = \"" + "\"/>\n", 0);
+                requestText.append("\n</docs>");
+                requestText.getText().replace("&lt;", "<");
+                requestText.getText().replace("&gt;", ">");
+                System.out.println(requestText.getText());
+
+                File requestFile = new File("test.xml");
+                try
+                {
+                    if (requestFile.createNewFile())
+                    {
+                        System.out.println("Plik " + requestFile.getName() + " został stworzony");
+                    }
+                    else
+                    {
+                        System.out.println("Plik o podanej nazwie istnieje");
+                    }
+                }
+                catch (IOException e1)
+                {
+                    e1.printStackTrace();
+                }
+
+                FileWriter writer = null;
+                try
+                {
+                    writer = new FileWriter("test.xml");
+                    writer.write(requestText.getText());
+                }
+                catch (IOException e1)
+                {
+                    e1.printStackTrace();
+                }
+                finally
+                {
+                    try
+                    {
+                        if (writer != null) {
+                            writer.close();
+                        }
+                    }
+                    catch (IOException e1)
+                    {
+                        e1.printStackTrace();
+                    }
+                }
+
                 System.out.println("WYGENEROWANO REQUEST");
+            }
         }
     }
 
