@@ -21,6 +21,8 @@ public class Ramka extends JFrame
     private JLabel name = new JLabel("Nazwa PDF: ");
     private JLabel ver = new JLabel("Wersja: ");
     private JLabel env = new JLabel("Środowisko: ");
+    private JComboBox envChoice = new JComboBox();
+    private String environment ="";
     private JLabel choice = new JLabel("Wygląd okna: ");
     private JLabel czas = new JLabel(pobierzCzas());
 
@@ -65,6 +67,19 @@ public class Ramka extends JFrame
             }
         });
 
+        setEnvChoice("");
+        setEnvChoice("DEV");
+        setEnvChoice("preprod");
+
+        envChoice.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                environment = (String) ((JComboBox)e.getSource()).getSelectedItem();
+            }
+        });
+
         ActionListener stoper = new Zegar();
 
         screenAppearance.setModel(new DefaultComboBoxModel(new String [] {"Metal", "Windows", "Motif"}));
@@ -76,7 +91,7 @@ public class Ramka extends JFrame
 
         layout.setHorizontalGroup(layout.createSequentialGroup()
         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(choice).addComponent(request).addComponent(etykieta).addComponent(templateID).addComponent(repo).addComponent(name).addComponent(ver).addComponent(env))
-        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(screenAppearance).addComponent(suwak).addComponent(czas))
+        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(screenAppearance).addComponent(suwak).addComponent(envChoice).addComponent(czas))
         .addComponent(button_one)
         );
 
@@ -87,7 +102,7 @@ public class Ramka extends JFrame
         .addComponent(repo)
         .addComponent(name)
         .addComponent(ver)
-        .addComponent(env)
+        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(env).addComponent(envChoice))
         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(etykieta).addComponent(czas))
         .addComponent(button_one)
         );
@@ -95,6 +110,10 @@ public class Ramka extends JFrame
         button_one.addActionListener(new WygenerujRequest());
     }
 
+    private void setEnvChoice(String env)
+    {
+        envChoice.addItem(env);
+    }
     private void choiceHandler(ActionEvent evt)
     {
         String interfaceName = "";
@@ -125,7 +144,7 @@ public class Ramka extends JFrame
             int opcja = JOptionPane.showConfirmDialog(rootPane, "Czy chcesz wygenerować request?", "Potrzebne potwierdzenie", JOptionPane.YES_NO_OPTION);
             if (opcja == 0)
             {
-                requestText.insert("<docs> \n <template denv = \"" + "\" dname = \"" + "\" drepo = \"" + "\" dtemplateid = \"" + "\" dversion = \"" + "\"/>\n", 0);
+                requestText.insert("<docs> \n <template denv = \"" + environment + "\" dname = \"" + "\" drepo = \"" + "\" dtemplateid = \"" + "\" dversion = \"" + "\"/>\n", 0);
                 requestText.append("\n</docs>");
                 requestText.getText().replace("&lt;", "<");
                 requestText.getText().replace("&gt;", ">");

@@ -1,4 +1,4 @@
 <docs> 
- <template denv = "" dname = "" drepo = "" dtemplateid = "" dversion = ""/>
+ <template denv = "DEV" dname = "" drepo = "" dtemplateid = "" dversion = ""/>
 &lt;DANE_DO_TESTU&gt;
 </docs>
