@@ -1,9 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -144,13 +148,21 @@ public class Ramka extends JFrame
             int opcja = JOptionPane.showConfirmDialog(rootPane, "Czy chcesz wygenerować request?", "Potrzebne potwierdzenie", JOptionPane.YES_NO_OPTION);
             if (opcja == 0)
             {
+                String generationDay = pobierzDate();
+                String generationTime = pobierzCzas();
+                String year = generationDay.substring(0,4);
+                String month = generationDay.substring(5,7);
+                String day = generationDay.substring(8, 10);
+                String hour = generationTime.substring(0,2);
+                String minute = generationTime.substring(3,5);
+                String sec = generationTime.substring(6,8);
+                String pathnameFile = "TEST_" + year + "" + month + "" + day + "_" + hour + "" + minute + "" + sec + ".xml";
                 requestText.insert("<docs> \n <template denv = \"" + environment + "\" dname = \"" + "\" drepo = \"" + "\" dtemplateid = \"" + "\" dversion = \"" + "\"/>\n", 0);
                 requestText.append("\n</docs>");
-                requestText.getText().replace("&lt;", "<");
-                requestText.getText().replace("&gt;", ">");
-                System.out.println(requestText.getText());
+                String request = requestText.getText().replaceAll("&lt;", "<").replaceAll("&gt;", ">");
+                System.out.println(request);
 
-                File requestFile = new File("test.xml");
+                File requestFile = new File(pathnameFile);
                 try
                 {
                     if (requestFile.createNewFile())
@@ -170,8 +182,8 @@ public class Ramka extends JFrame
                 FileWriter writer = null;
                 try
                 {
-                    writer = new FileWriter("test.xml");
-                    writer.write(requestText.getText());
+                    writer = new FileWriter(pathnameFile);
+                    writer.write(request);
                 }
                 catch (IOException e1)
                 {
@@ -225,5 +237,11 @@ public class Ramka extends JFrame
             sec = "0" + sec;
         }
         return hour + ":" + minute + ":" + sec;
+    }
+
+    public String pobierzDate()
+    {
+        String godzinaGenerowania = LocalDateTime.now().toString();
+        return godzinaGenerowania;
     }
 }
